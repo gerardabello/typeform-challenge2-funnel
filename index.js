@@ -1,15 +1,22 @@
 var express = require('express')
 var proxy = require('express-http-proxy')
 var bodyParser = require('body-parser')
+var fs = require('fs')
 var app = express()
 
 const PORT = 3000
+
+const form = fs.readFileSync('../stakhanov/demo/form-sample.json')
 
 let db = []
 
 app.use(bodyParser.text())
 
 // FORM ENDPOINT (redirect to stkv)
+app.get('/definition', function (req, res) {
+  res.send(form)
+})
+
 app.use('/form', proxy('http://localhost:8080'))
 app.use(
   '/index.js',
