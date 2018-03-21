@@ -21,7 +21,6 @@ app.post('/load', function (req, res) {
 
   db[sessionId] = { timeStart: new Date().getTime() }
 
-  console.log(db)
   res.end()
 })
 
@@ -30,7 +29,6 @@ app.post('/unload', function (req, res) {
   const sessionId = body.sessionId
 
   if (!db[sessionId]) {
-    console.log('Unknown sessionId ' + sessionId)
     return
   }
 
@@ -39,7 +37,6 @@ app.post('/unload', function (req, res) {
     lastSeenBlockRef: body.lastSeenBlockRef
   })
 
-  console.log(db)
   res.end()
 })
 
@@ -56,7 +53,6 @@ app.post('/submit', function (req, res) {
     timeEnd: new Date().getTime(),
     lastSeenBlockRef: 'submit'
   })
-  console.log(db)
   res.end()
 })
 
