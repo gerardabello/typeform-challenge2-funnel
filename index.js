@@ -1,4 +1,5 @@
 var express = require('express')
+var proxy = require('express-http-proxy')
 var bodyParser = require('body-parser')
 var app = express()
 
@@ -10,6 +11,8 @@ var app = express()
 let db = {}
 
 app.use(bodyParser.text())
+
+app.use('/form', proxy('localhost:8080'))
 
 app.get('/data', function (req, res) {
   res.send(JSON.stringify(db))
