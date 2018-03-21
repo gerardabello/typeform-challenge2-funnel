@@ -11,8 +11,12 @@ import { colors } from '@typeform/kitt/lib/variables'
 import Question from './components/question'
 import TabList, { Tab } from '@typeform/kitt/lib/components/tab-list'
 import Button from '@typeform/kitt/lib/components/button'
+<<<<<<< HEAD
 import PopoverMenu from '@typeform/kitt/lib/components/popover-menu'
 import { injectGlobal } from 'styled-components'
+=======
+import getData from './parse'
+>>>>>>> 9e19f65a5a3992528948af2b92ec5d2cfdf24447
 
 injectGlobal`
   body {
@@ -36,6 +40,7 @@ const FilterBar = () => (
   </div>
 )
 
+<<<<<<< HEAD
 const App = () => (
   <BaseStyles>
     <Container backgroundColor={colors.grey0}>
@@ -106,5 +111,8 @@ const App = () => (
 )
 
 console.log('hello world')
+=======
+console.log(getData())
+>>>>>>> 9e19f65a5a3992528948af2b92ec5d2cfdf24447
 
 render(<App />, document.getElementById('root'))
