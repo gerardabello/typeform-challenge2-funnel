@@ -37,12 +37,11 @@ const parseData = (formId, formDefinition, dropoutEvents) => {
 }
 
 const getData = () =>
-  Promise.all(
-    fetch('/data'),
-    fetch('/definition')
-  ).then((values) => {
-    console.log(values)
+  Promise.all([
+    fetch('/data').then(value => value.json()),
+    fetch('/definition').then(value => value.json())
+  ]).then((values) => {
+    return parseData(values[1].id, values[1], values[0])
   })
-  parseData(formDefinition.id, formDefinition, dropoutEvents)
 
 export default getData
