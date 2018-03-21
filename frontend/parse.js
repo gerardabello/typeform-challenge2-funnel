@@ -5,8 +5,7 @@ import map from 'ramda/src/map'
 import values from 'ramda/src/values'
 import formDefinition from './form-definition'
 import dropoutEvents from './dropout-data'
-console.log("hello world");
-console.log(formDefinition)
+import 'whatwg-fetch'
 
 const getUniqueViewsCount = (ref, viewsByBlock) =>
   viewsByBlock[ref]
@@ -38,6 +37,12 @@ const parseData = (formId, formDefinition, dropoutEvents) => {
 }
 
 const getData = () =>
+  Promise.all(
+    fetch('/data'),
+    fetch('/definition')
+  ).then((values) => {
+    console.log(values)
+  })
   parseData(formDefinition.id, formDefinition, dropoutEvents)
 
 export default getData

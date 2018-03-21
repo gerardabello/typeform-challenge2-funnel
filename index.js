@@ -18,6 +18,7 @@ app.get('/definition', function (req, res) {
 })
 
 app.use('/form', proxy('http://localhost:8080'))
+app.use('/dist', express.static('frontend/dist'))
 app.use(
   '/index.js',
   proxy('localhost:8080', {
