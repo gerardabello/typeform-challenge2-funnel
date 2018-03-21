@@ -18,9 +18,9 @@
     glamorous "^4.11.2"
     prop-types "^15.6.0"
 
-"@typeform/kitt@^22.3.0":
-  version "22.3.0"
-  resolved "https://registry.yarnpkg.com/@typeform/kitt/-/kitt-22.3.0.tgz#7b431ea8d64f170bb2182b8bc3bedf9cfa31022b"
+"@typeform/kitt@^22.3.1":
+  version "22.3.1"
+  resolved "https://registry.yarnpkg.com/@typeform/kitt/-/kitt-22.3.1.tgz#cd32b4e527ea68860f6dd36d0b199e625e038044"
   dependencies:
     "@storybook/addon-links" "^3.3.14"
     classnames "^2.2.5"

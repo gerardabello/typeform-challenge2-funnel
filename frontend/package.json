@@ -3,7 +3,7 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "@typeform/kitt": "^22.3.0",
+    "@typeform/kitt": "^22.3.1",
     "parcel-bundler": "^1.6.2",
     "ramda": "^0.25.0",
     "react": "^15.6.1",
