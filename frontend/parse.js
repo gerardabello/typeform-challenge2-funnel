@@ -27,7 +27,7 @@ const parseData = (formId, formDefinition, dropoutEvents) => {
     return {
       ref: field.ref,
       type: field.type,
-      index,
+      index: index + 1,
       title: field.title,
       uniqueViews: getUniqueViewsCount(field.ref, viewsByBlock), // quantes sessions han vist aquest field
       dropout: getDropoutByBlock(field.ref, dropoutEvents) // quantes sessions han acabat en aquest field

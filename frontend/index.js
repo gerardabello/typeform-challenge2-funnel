@@ -37,7 +37,7 @@ const FilterBar = () => (
   </div>
 )
 
-const App = () => (
+const App = ({data}) => (
   <BaseStyles>
     <Container backgroundColor={colors.grey0}>
       <ScrollContent
@@ -74,27 +74,16 @@ const App = () => (
               <Card>
                 <Spacer bottom={1}>
                   <Distribute vertical space={4} >
-                    <Question
-                      title='How are you?'
-                      dropoutsAmount={71}
-                      visitsAmount={120}
-                      blockType='picture-choice'
-                      blockIndex='2'
-                    />
-                    <Question
-                      title='Are you really you?'
-                      dropoutsAmount={42}
-                      visitsAmount={68}
-                      blockType='yes-no'
-                      blockIndex='10'
-                    />
-                    <Question
-                      title='Are you here?'
-                      dropoutsAmount={12}
-                      visitsAmount={41}
-                      blockType='dropdown'
-                      blockIndex='10'
-                    />
+                    {data.map((field) => {
+                      return <Question
+                        key={field.ref}
+                        title={field.title}
+                        dropoutsAmount={field.dropout/field.uniqueViews*100}
+                        visitsAmount={field.uniqueViews}
+                        blockType='yes-no'
+                        blockIndex={field.index}
+                      />
+                    })}
                   </Distribute>
                 </Spacer>
               </Card>
@@ -105,5 +94,6 @@ const App = () => (
     </Container>
   </BaseStyles>
 )
-
-render(<App />, document.getElementById('root'))
+getData().then((data) => {
+  render(<App data={data} />, document.getElementById('root'))
+})
