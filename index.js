@@ -3,15 +3,18 @@ var proxy = require('express-http-proxy')
 var bodyParser = require('body-parser')
 var app = express()
 
+const PORT = 3000
+
 /*
  {
- sessionId: {timeStart: int, timeEnd: int, lastSeenBlockRef: string}
+  sessionId: {timeStart: int, timeEnd: int, lastSeenBlockRef: string}
  }
  */
 let db = {}
 
 app.use(bodyParser.text())
 
+// FORM ENDPOINT (redirect to stkv)
 app.use('/form', proxy('http://localhost:8080'))
 app.use(
   '/index.js',
@@ -22,10 +25,12 @@ app.use(
   })
 )
 
+// DATA ENDPOINT
 app.get('/data', function (req, res) {
   res.send(JSON.stringify(db))
 })
 
+// TRACKING ENDPOINTS
 app.post('/load', function (req, res) {
   const body = JSON.parse(req.body)
   const sessionId = body.sessionId
@@ -67,6 +72,6 @@ app.post('/submit', function (req, res) {
   res.end()
 })
 
-app.listen(3000, function () {
-  console.log('Started on PORT 3000')
+app.listen(PORT, function () {
+  console.log(`Started on PORT ${PORT}`)
 })
