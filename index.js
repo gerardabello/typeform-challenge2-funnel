@@ -12,7 +12,15 @@ let db = {}
 
 app.use(bodyParser.text())
 
-app.use('/form', proxy('localhost:8080'))
+app.use('/form', proxy('http://localhost:8080'))
+app.use(
+  '/index.js',
+  proxy('localhost:8080', {
+    proxyReqPathResolver: function (req) {
+      return '/index.js'
+    }
+  })
+)
 
 app.get('/data', function (req, res) {
   res.send(JSON.stringify(db))
