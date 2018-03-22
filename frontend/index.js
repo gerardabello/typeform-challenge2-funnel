@@ -25,6 +25,7 @@ const sortTypes = {
 injectGlobal`
   body {
     margin: 0;
+    -webkit-overflow-scrolling: touch;
   }
 `
 
