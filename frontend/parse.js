@@ -1,27 +1,33 @@
 import uniqBy from 'ramda/src/uniqBy'
 import groupBy from 'ramda/src/groupBy'
 import last from 'ramda/src/last'
+import prop from 'ramda/src/prop'
 import map from 'ramda/src/map'
 import values from 'ramda/src/values'
 import formDefinition from './form-definition'
 import dropoutEvents from './dropout-data'
 import 'whatwg-fetch'
 
+const getSessionId = prop('sessionId')
+const getBlockRef = prop('blockRef')
+const groupByRef = groupBy(getBlockRef)
+const uniqBySession = uniqBy(getSessionId)
+
 const getUniqueViewsCount = (ref, viewsByBlock) =>
   viewsByBlock[ref]
-  ? uniqBy((evt) => evt.sessionId)(viewsByBlock[ref]).length
+  ? uniqBySession(viewsByBlock[ref]).length
   : 0
 
 const getDropoutByBlock = (ref, dropoutEvents) => {
-  const list = groupBy((evt)=>evt.blockRef, values(map(last, groupBy((evt) => evt.sessionId)(dropoutEvents))))
+  const list = groupByRef(values(map(last, groupBy(getSessionId, dropoutEvents))))
   return list[ref]
     ? list[ref].length
     : 0
 }
 
 const parseData = (formId, formDefinition, dropoutEvents) => {
-  const total = uniqBy((evt) => evt.sessionId)(dropoutEvents).length
-  const viewsByBlock = groupBy((evt) => evt.blockRef)(dropoutEvents)
+  const total = uniqBySession(dropoutEvents).length
+  const viewsByBlock = groupByRef(dropoutEvents)
 
   return formDefinition.fields.map((field, index) => {
     return {
