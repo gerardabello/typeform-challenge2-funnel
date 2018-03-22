@@ -110,13 +110,6 @@ class App extends React.Component {
   render () {
     const { data } = this.state
 
-    if (!data) {
-      return <Container height='full'>
-        <Distribute align='center' position='center' style={{height: '100%'}}>
-          <Loader type='spinner' />
-        </Distribute>
-    </Container>
-    }
     return (
       <BaseStyles>
         <Container backgroundColor={colors.grey0}>
@@ -134,32 +127,42 @@ class App extends React.Component {
                   />
                 </Spacer>
 
-                <QuestionsCardWrapper>
-                  <Card innerSpace='none'>
-                    <CardContentWrapper>
-                      <Spacer bottom={1}>
-                        <Distribute vertical space={5}>
-                          {sortData(this.state.sortType, data).map(field => {
-                            return (
-                              <Question
-                                key={field.ref}
-                                title={field.title}
-                                dropoutsAmount={getPercentageDropout(
-                                  field.dropout,
-                                  field.uniqueViews
-                                )}
-                                visitsAmount={field.uniqueViews}
-                                blockType={field.type}
-                                blockIndex={field.indexText}
-                                isRequired={field.isRequired}
-                              />
-                            )
-                          })}
-                        </Distribute>
-                      </Spacer>
-                    </CardContentWrapper>
-                  </Card>
-                </QuestionsCardWrapper>
+                {data &&
+                  <QuestionsCardWrapper>
+                    <Card innerSpace='none'>
+                      <CardContentWrapper>
+                        <Spacer bottom={1}>
+                          <Distribute vertical space={5}>
+                            {sortData(this.state.sortType, data).map(field => {
+                              return (
+                                <Question
+                                  key={field.ref}
+                                  title={field.title}
+                                  dropoutsAmount={getPercentageDropout(
+                                    field.dropout,
+                                    field.uniqueViews
+                                  )}
+                                  visitsAmount={field.uniqueViews}
+                                  blockType={field.type}
+                                  blockIndex={field.indexText}
+                                  isRequired={field.isRequired}
+                                />
+                              )
+                            })}
+                          </Distribute>
+                        </Spacer>
+                      </CardContentWrapper>
+                    </Card>
+                  </QuestionsCardWrapper>
+                }
+
+                {!data &&
+                  <Container height='full'>
+                    <Distribute align='center' position='center' style={{height: '50%'}}>
+                      <Loader type='spinner' />
+                    </Distribute>
+                  </Container>
+                }
               </QuestionsLayout>
             </Distribute>
           </ScrollContent>
