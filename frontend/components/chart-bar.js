@@ -33,7 +33,7 @@ const ChartBar = ({ dropoutsAmount, visitsAmount }) => (
         <div>
           <Text fontWeight='bold' inline>
             {dropoutsAmount}%
-          </Text> of views drops out
+          </Text> of visitors droped out
         </div>
 
         <div>
