@@ -13,9 +13,8 @@ const BlockWrapper = styled.div`
 `
 const RequiredWrapper = styled.div`
   position: absolute;
-  right: 100%;
+  right: calc(100% + 8px);
   top: 0;
-  width: 32px;
 `
 
 const Question = ({ title, dropoutsAmount, visitsAmount, blockType, blockIndex, isRequired }) => (
