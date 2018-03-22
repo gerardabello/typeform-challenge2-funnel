@@ -43,6 +43,8 @@ const FilterBar = () => (
   </div>
 )
 
+const round2decimals = num => Math.round(num * 100) / 100
+
 const sortByDropout = compose(reverse, sortBy(f => f.dropout / f.uniqueViews))
 const sortByIndex = sortBy(prop('index'))
 const sortData = (type, fields) => {
@@ -98,9 +100,11 @@ const App = ({ data }) => (
                         <Question
                           key={field.ref}
                           title={field.title}
-                          dropoutsAmount={
-                            field.dropout / field.uniqueViews * 100
-                          }
+                          dropoutsAmount={round2decimals(
+                            field.uniqueViews === 0
+                              ? 0
+                              : field.dropout / field.uniqueViews * 100
+                          )}
                           visitsAmount={field.uniqueViews}
                           blockType='yes-no'
                           blockIndex={field.index}
