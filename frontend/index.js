@@ -12,7 +12,7 @@ import Question from './components/question'
 import Header from './components/header'
 import Button from '@typeform/kitt/lib/components/button'
 import PopoverMenu from '@typeform/kitt/lib/components/popover-menu'
-import { injectGlobal } from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import getData from './parse'
 import { sortBy, prop, reverse, compose } from 'ramda'
 
@@ -26,6 +26,26 @@ injectGlobal`
     margin: 0;
   }
 `
+
+const QuestionsLayout = styled.div`
+  max-width: 976px;
+  width: 100%;
+  padding: 0 24px;
+`
+
+const QuestionsCardWrapper = styled.div`
+  max-width: 768px;
+  width: 100%;
+`
+
+const CardContentWrapper = styled.div`
+  padding: 24px 32px;
+
+  @media (max-width: 700px) {
+    padding: 16px 24px;
+  }
+`
+
 const titles = {
   [sortTypes.dropout]: 'Highest dropout',
   [sortTypes.index]: 'Questions order'
@@ -87,7 +107,7 @@ class App extends React.Component {
         <Container backgroundColor={colors.grey0}>
           <ScrollContent topSection={<Header />}>
             <Distribute position='center'>
-              <Container width='1024px' padBottom={8}>
+              <QuestionsLayout>
                 <Spacer top={4} bottom={2}>
                   <Text size='size2'>Dropouts</Text>
                 </Spacer>
@@ -99,31 +119,33 @@ class App extends React.Component {
                   />
                 </Spacer>
 
-                <Container width='768'>
-                  <Card>
-                    <Spacer bottom={1}>
-                      <Distribute vertical space={5}>
-                        {sortData(this.state.sortType, data).map(field => {
-                          return (
-                            <Question
-                              key={field.ref}
-                              title={field.title}
-                              dropoutsAmount={getPercentageDropout(
-                                field.dropout,
-                                field.uniqueViews
-                              )}
-                              visitsAmount={field.uniqueViews}
-                              blockType={field.type}
-                              blockIndex={field.indexText}
-                              isRequired={field.isRequired}
-                            />
-                          )
-                        })}
-                      </Distribute>
-                    </Spacer>
+                <QuestionsCardWrapper>
+                  <Card innerSpace='none'>
+                    <CardContentWrapper>
+                      <Spacer bottom={1}>
+                        <Distribute vertical space={5}>
+                          {sortData(this.state.sortType, data).map(field => {
+                            return (
+                              <Question
+                                key={field.ref}
+                                title={field.title}
+                                dropoutsAmount={getPercentageDropout(
+                                  field.dropout,
+                                  field.uniqueViews
+                                )}
+                                visitsAmount={field.uniqueViews}
+                                blockType={field.type}
+                                blockIndex={field.indexText}
+                                isRequired={field.isRequired}
+                              />
+                            )
+                          })}
+                        </Distribute>
+                      </Spacer>
+                    </CardContentWrapper>
                   </Card>
-                </Container>
-              </Container>
+                </QuestionsCardWrapper>
+              </QuestionsLayout>
             </Distribute>
           </ScrollContent>
         </Container>
