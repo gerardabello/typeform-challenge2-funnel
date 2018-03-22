@@ -9,7 +9,7 @@ import Text from '@typeform/kitt/lib/components/text'
 import Spacer from '@typeform/kitt/lib/components/spacer'
 import { colors } from '@typeform/kitt/lib/variables'
 import Question from './components/question'
-import TabList, { Tab } from '@typeform/kitt/lib/components/tab-list'
+import Header from './components/header'
 import Button from '@typeform/kitt/lib/components/button'
 import PopoverMenu from '@typeform/kitt/lib/components/popover-menu'
 import { injectGlobal } from 'styled-components'
@@ -63,32 +63,11 @@ const App = ({ data }) => (
     <Container backgroundColor={colors.grey0}>
       <ScrollContent
         topSection={
-          <div>
-            <Container
-              borderSide='bottom'
-              height='xsm'
-              backgroundColor='white'
-            />
-            <Container
-              borderSide='bottom'
-              height='48px'
-              backgroundColor='white'
-            >
-              <Distribute position='center'>
-                <Container width='1024px'>
-                  <TabList size='small' value='insights' type='line'>
-                    <Tab value='summary' label='Summary' />
-                    <Tab value='responses' label='Responses' />
-                    <Tab value='insights' label='Insights' />
-                  </TabList>
-                </Container>
-              </Distribute>
-            </Container>
-          </div>
+          <Header />
         }
       >
         <Distribute position='center'>
-          <Container width='1024px'>
+          <Container width='1024px' padBottom={8} >
             <Spacer top={4} bottom={2}>
               <Text size='size2'>Dropouts</Text>
             </Spacer>
