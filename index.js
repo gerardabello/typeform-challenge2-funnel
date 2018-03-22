@@ -8,7 +8,25 @@ const PORT = 3000
 
 const form = fs.readFileSync('../stakhanov/demo/form-sample.json')
 
-let db = []
+let db
+try {
+  const content = fs.readFileSync('backup.json', 'utf8')
+  db = JSON.parse(content)
+  console.log('backup loaded')
+} catch (e) {
+  db = []
+  console.log('new db')
+}
+
+setInterval(
+  () =>
+    fs.writeFile('backup.json', JSON.stringify(db), err => {
+      if (err) {
+        return console.log(err)
+      }
+    }),
+  1000 * 10
+)
 
 app.use(bodyParser.text())
 
