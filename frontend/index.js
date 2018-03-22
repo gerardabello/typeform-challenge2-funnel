@@ -35,7 +35,7 @@ const FilterBar = () => (
           iconSvg={require('@typeform/kitt/lib/iconsv2/caret-down')}
           iconPosition='right'
         >
-          Order by
+          <Text dimmed inline>Order by:</Text> Highest dropout
         </Button>
       }
       options={[{ title: 'Highest dropout' }, { title: 'Questions order' }]}
