@@ -26,8 +26,11 @@ injectGlobal`
     margin: 0;
   }
 `
-
-const FilterBar = () => (
+const titles = {
+  [sortTypes.dropout]: 'Highest dropout',
+  [sortTypes.index]: 'Questions order'
+}
+const FilterBar = ({onClick, currentFilter}) => (
   <div>
     <PopoverMenu
       trigger={
@@ -35,10 +38,13 @@ const FilterBar = () => (
           iconSvg={require('@typeform/kitt/lib/iconsv2/caret-down')}
           iconPosition='right'
         >
-          <Text dimmed inline>Order by:</Text> Highest dropout
+          <Text dimmed inline>Order by:</Text> {titles[currentFilter]}
         </Button>
       }
-      options={[{ title: 'Highest dropout' }, { title: 'Questions order' }]}
+      options={[
+        { title: titles[sortTypes.dropout], onClick: () => onClick(sortTypes.dropout) },
+        { title: titles[sortTypes.index], onClick: () => onClick(sortTypes.index) }
+      ]}
     />
   </div>
 )
@@ -58,53 +64,62 @@ const sortData = (type, fields) => {
   return sort(fields)
 }
 
-const App = ({ data }) => (
-  <BaseStyles>
-    <Container backgroundColor={colors.grey0}>
-      <ScrollContent
-        topSection={
-          <Header />
-        }
-      >
-        <Distribute position='center'>
-          <Container width='1024px' padBottom={8} >
-            <Spacer top={4} bottom={2}>
-              <Text size='size2'>Dropouts</Text>
-            </Spacer>
+class App extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      sortType: sortTypes.dropout
+    }
+  }
+  render() {
+    const {data} = this.props
+    return <BaseStyles>
+      <Container backgroundColor={colors.grey0}>
+        <ScrollContent
+          topSection={
+            <Header />
+          }
+        >
+          <Distribute position='center'>
+            <Container width='1024px' padBottom={8} >
+              <Spacer top={4} bottom={2}>
+                <Text size='size2'>Dropouts</Text>
+              </Spacer>
 
-            <Spacer bottom={3}>
-              <FilterBar />
-            </Spacer>
+              <Spacer bottom={3}>
+                <FilterBar currentFilter={this.state.sortType} onClick={(val)=>this.setState({sortType:val})} />
+              </Spacer>
 
-            <Container width='768'>
-              <Card>
-                <Spacer bottom={1}>
-                  <Distribute vertical space={5}>
-                    {sortData(sortTypes.dropout, data).map(field => {
-                      return (
-                        <Question
-                          key={field.ref}
-                          title={field.title}
-                          dropoutsAmount={getPercentageDropout(
-                            field.dropout,
-                            field.uniqueViews
-                          )}
-                          visitsAmount={field.uniqueViews}
-                          blockType={field.type}
-                          blockIndex={field.index}
-                        />
-                      )
-                    })}
-                  </Distribute>
-                </Spacer>
-              </Card>
+              <Container width='768'>
+                <Card>
+                  <Spacer bottom={1}>
+                    <Distribute vertical space={5}>
+                      {sortData(this.state.sortType, data).map(field => {
+                        return (
+                          <Question
+                            key={field.ref}
+                            title={field.title}
+                            dropoutsAmount={getPercentageDropout(
+                              field.dropout,
+                              field.uniqueViews
+                            )}
+                            visitsAmount={field.uniqueViews}
+                            blockType={field.type}
+                            blockIndex={field.index}
+                          />
+                        )
+                      })}
+                    </Distribute>
+                  </Spacer>
+                </Card>
+              </Container>
             </Container>
-          </Container>
-        </Distribute>
-      </ScrollContent>
-    </Container>
-  </BaseStyles>
-)
+          </Distribute>
+        </ScrollContent>
+      </Container>
+    </BaseStyles>
+  }
+}
 getData().then(data => {
   render(<App data={data} />, document.getElementById('root'))
 })
