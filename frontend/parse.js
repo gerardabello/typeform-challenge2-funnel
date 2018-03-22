@@ -8,6 +8,8 @@ import formDefinition from './form-definition'
 import dropoutEvents from './dropout-data'
 import 'whatwg-fetch'
 
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
 const getSessionId = prop('sessionId')
 const getBlockRef = prop('blockRef')
 const groupByRef = groupBy(getBlockRef)
@@ -28,12 +30,14 @@ const getDropoutByBlock = (ref, dropoutEvents) => {
 const parseData = (formId, formDefinition, dropoutEvents) => {
   const total = uniqBySession(dropoutEvents).length
   const viewsByBlock = groupByRef(dropoutEvents)
+  let blockIndex = 1
+  let statementIndex = 0
 
   return formDefinition.fields.map((field, index) => {
     return {
       ref: field.ref,
       type: field.type,
-      index: index + 1,
+      index: field.type === 'statement' ? alphabet[statementIndex++] : blockIndex++,
       title: field.title,
       uniqueViews: getUniqueViewsCount(field.ref, viewsByBlock), // quantes sessions han vist aquest field
       dropout: getDropoutByBlock(field.ref, dropoutEvents) // quantes sessions han acabat en aquest field
