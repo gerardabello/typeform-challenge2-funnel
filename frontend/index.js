@@ -6,6 +6,7 @@ import Container from '@typeform/kitt/lib/components/container'
 import Distribute from '@typeform/kitt/lib/components/distribute'
 import Card from '@typeform/kitt/lib/components/card'
 import Text from '@typeform/kitt/lib/components/text'
+import Loader from '@typeform/kitt/lib/components/loader'
 import Spacer from '@typeform/kitt/lib/components/spacer'
 import { colors } from '@typeform/kitt/lib/variables'
 import Question from './components/question'
@@ -97,11 +98,25 @@ class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      sortType: sortTypes.dropout
+      sortType: sortTypes.dropout,
+      data: null
     }
   }
+  componentDidMount () {
+    getData().then(data => {
+      this.setState({data})
+    })
+  }
   render () {
-    const { data } = this.props
+    const { data } = this.state
+
+    if (!data) {
+      return <Container height='full'>
+        <Distribute align='center' position='center' style={{height: '100%'}}>
+          <Loader type='spinner' />
+        </Distribute>
+    </Container>
+    }
     return (
       <BaseStyles>
         <Container backgroundColor={colors.grey0}>
@@ -153,6 +168,4 @@ class App extends React.Component {
     )
   }
 }
-getData().then(data => {
-  render(<App data={data} />, document.getElementById('root'))
-})
+render(<App />, document.getElementById('root'))
