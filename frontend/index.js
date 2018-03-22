@@ -103,7 +103,7 @@ class App extends React.Component {
                   <Card>
                     <Spacer bottom={1}>
                       <Distribute vertical space={5}>
-                        {sortData(sortTypes.dropout, data).map(field => {
+                        {sortData(this.state.sortType, data).map(field => {
                           return (
                             <Question
                               key={field.ref}
