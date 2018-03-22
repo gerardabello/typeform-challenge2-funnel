@@ -79,7 +79,7 @@ const App = ({ data }) => (
             <Container width='768'>
               <Card>
                 <Spacer bottom={1}>
-                  <Distribute vertical space={4}>
+                  <Distribute vertical space={5}>
                     {sortData(sortTypes.dropout, data).map(field => {
                       return (
                         <Question
@@ -90,7 +90,7 @@ const App = ({ data }) => (
                             field.uniqueViews
                           )}
                           visitsAmount={field.uniqueViews}
-                          blockType='yes-no'
+                          blockType={field.type}
                           blockIndex={field.index}
                         />
                       )

@@ -15,13 +15,13 @@ const Question = ({ title, dropoutsAmount, visitsAmount, blockType, blockIndex }
         blockIndex={blockIndex}
       />
     </SplitItem>
-    <SplitItem width='remaining'>
-      <Spacer bottom={2}>
+    <SplitItem width='remaining' padRight={8}>
+      <Spacer bottom={1}>
         <Text size='size1' fontWeight='medium'>
           {title}
         </Text>
       </Spacer>
-      <Container padRight={8}>
+      <Container>
         <ChartBar dropoutsAmount={dropoutsAmount} visitsAmount={visitsAmount} />
       </Container>
     </SplitItem>

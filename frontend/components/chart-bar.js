@@ -2,15 +2,18 @@ import React from 'react'
 import Text from '@typeform/kitt/lib/components/text'
 import Spread from '@typeform/kitt/lib/components/spread'
 import styled from 'styled-components'
+import { xxlight, dark } from '@typeform/kitt/lib/utils'
+import { colors } from '@typeform/kitt/lib/variables'
 
 const ChartBarWrapper = styled.div`
-  background-color: rgba(0,0,0,.08);
+  background-color: rgba(0,0,0,.04);
   padding: 10px 16px;
   border-radius: 3px;
   position: relative;
+  color: ${props => props.dropoutsAmount ? dark(colors.error) : colors.grey5};
 `
 const Fill = styled.div`
-  background-color: rgba(0,0,0,.08);
+  background-color: ${xxlight(colors.error)};
   width: ${props => props.dropoutsAmount}%;
   border-radius: 3px;
   height: 100%;
@@ -24,7 +27,7 @@ const ChartBarContent = styled.div`
 `
 
 const ChartBar = ({ dropoutsAmount, visitsAmount }) => (
-  <ChartBarWrapper>
+  <ChartBarWrapper dropoutsAmount={dropoutsAmount}>
     <ChartBarContent>
       <Spread>
         <div>
