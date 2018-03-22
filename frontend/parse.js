@@ -3,6 +3,7 @@ import groupBy from 'ramda/src/groupBy'
 import last from 'ramda/src/last'
 import prop from 'ramda/src/prop'
 import map from 'ramda/src/map'
+import path from 'ramda/src/path'
 import values from 'ramda/src/values'
 import 'whatwg-fetch'
 
@@ -37,7 +38,8 @@ const parseData = (formId, formDefinition, dropoutEvents) => {
         field.type === 'statement' ? alphabet[statementIndex++] : blockIndex++,
       title: field.title,
       uniqueViews: getUniqueViewsCount(field.ref, viewsByBlock), // quantes sessions han vist aquest field
-      dropout: getDropoutByBlock(field.ref, dropoutEvents) // quantes sessions han acabat en aquest field
+      dropout: getDropoutByBlock(field.ref, dropoutEvents), // quantes sessions han acabat en aquest field
+      isRequired: path(['validations', 'required'], field)
     }
   })
 
@@ -51,7 +53,8 @@ const parseData = (formId, formDefinition, dropoutEvents) => {
         indexText: '',
         title: screen.title,
         uniqueViews: getUniqueViewsCount(screen.ref, viewsByBlock), // quantes sessions han vist aquest field
-        dropout: getDropoutByBlock(screen.ref, dropoutEvents) // quantes sessions han acabat en aquest field
+        dropout: getDropoutByBlock(screen.ref, dropoutEvents), // quantes sessions han acabat en aquest field
+        isRequired: false
       },
       ...data
     ]

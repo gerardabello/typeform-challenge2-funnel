@@ -115,6 +115,7 @@ class App extends React.Component {
                               visitsAmount={field.uniqueViews}
                               blockType={field.type}
                               blockIndex={field.indexText}
+                              isRequired={field.isRequired}
                             />
                           )
                         })}
