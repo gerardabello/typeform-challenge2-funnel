@@ -6,7 +6,7 @@ import map from 'ramda/src/map'
 import values from 'ramda/src/values'
 import 'whatwg-fetch'
 
-const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('')
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 const getSessionId = prop('sessionId')
 const getBlockRef = prop('blockRef')
@@ -28,17 +28,36 @@ const parseData = (formId, formDefinition, dropoutEvents) => {
   let blockIndex = 1
   let statementIndex = 0
 
-  return formDefinition.fields.map((field, index) => {
+  let data = formDefinition.fields.map((field, index) => {
     return {
       ref: field.ref,
       type: field.type,
-      index:
+      index: index + 1,
+      indexText:
         field.type === 'statement' ? alphabet[statementIndex++] : blockIndex++,
       title: field.title,
       uniqueViews: getUniqueViewsCount(field.ref, viewsByBlock), // quantes sessions han vist aquest field
       dropout: getDropoutByBlock(field.ref, dropoutEvents) // quantes sessions han acabat en aquest field
     }
   })
+
+  if (formDefinition.welcome_screens[0]) {
+    const screen = formDefinition.welcome_screens[0]
+    data = [
+      {
+        ref: screen.ref,
+        type: 'welcome_screen',
+        index: 0,
+        indexText: '',
+        title: screen.title,
+        uniqueViews: getUniqueViewsCount(screen.ref, viewsByBlock), // quantes sessions han vist aquest field
+        dropout: getDropoutByBlock(screen.ref, dropoutEvents) // quantes sessions han acabat en aquest field
+      },
+      ...data
+    ]
+  }
+
+  return data
 }
 
 const getData = () =>

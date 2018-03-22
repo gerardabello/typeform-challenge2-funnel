@@ -35,7 +35,10 @@ const FilterBar = () => (
           iconSvg={require('@typeform/kitt/lib/iconsv2/caret-down')}
           iconPosition='right'
         >
-          <Text dimmed inline>Order by:</Text> Highest dropout
+          <Text dimmed inline>
+            Order by:
+          </Text>{' '}
+          Highest dropout
         </Button>
       }
       options={[{ title: 'Highest dropout' }, { title: 'Questions order' }]}
@@ -61,13 +64,9 @@ const sortData = (type, fields) => {
 const App = ({ data }) => (
   <BaseStyles>
     <Container backgroundColor={colors.grey0}>
-      <ScrollContent
-        topSection={
-          <Header />
-        }
-      >
+      <ScrollContent topSection={<Header />}>
         <Distribute position='center'>
-          <Container width='1024px' padBottom={8} >
+          <Container width='1024px' padBottom={8}>
             <Spacer top={4} bottom={2}>
               <Text size='size2'>Dropouts</Text>
             </Spacer>
@@ -91,7 +90,7 @@ const App = ({ data }) => (
                           )}
                           visitsAmount={field.uniqueViews}
                           blockType={field.type}
-                          blockIndex={field.index}
+                          blockIndex={field.indexText}
                         />
                       )
                     })}
