@@ -14,6 +14,12 @@ import Button from '@typeform/kitt/lib/components/button'
 import PopoverMenu from '@typeform/kitt/lib/components/popover-menu'
 import { injectGlobal } from 'styled-components'
 import getData from './parse'
+import { sortBy, prop, reverse, compose } from 'ramda'
+
+const sortTypes = {
+  dropout: 'dropout',
+  index: 'index'
+}
 
 injectGlobal`
   body {
@@ -25,26 +31,41 @@ const FilterBar = () => (
   <div>
     <PopoverMenu
       trigger={
-        <Button iconSvg={require('@typeform/kitt/lib/iconsv2/caret-down')} iconPosition='right'>
+        <Button
+          iconSvg={require('@typeform/kitt/lib/iconsv2/caret-down')}
+          iconPosition='right'
+        >
           Order by
         </Button>
       }
-      options={[
-        { 'title': 'Highest dropout' },
-        { 'title': 'Questions order' }
-      ]}
+      options={[{ title: 'Highest dropout' }, { title: 'Questions order' }]}
     />
   </div>
 )
 
-const App = ({data}) => (
+const sortByDropout = compose(reverse, sortBy(f => f.dropout / f.uniqueViews))
+const sortByIndex = sortBy(prop('index'))
+const sortData = (type, fields) => {
+  const sort = type === sortTypes.index ? sortByIndex : sortByDropout
+  return sort(fields)
+}
+
+const App = ({ data }) => (
   <BaseStyles>
     <Container backgroundColor={colors.grey0}>
       <ScrollContent
         topSection={
           <div>
-            <Container borderSide='bottom' height='xsm' backgroundColor='white' />
-            <Container borderSide='bottom' height='48px' backgroundColor='white' >
+            <Container
+              borderSide='bottom'
+              height='xsm'
+              backgroundColor='white'
+            />
+            <Container
+              borderSide='bottom'
+              height='48px'
+              backgroundColor='white'
+            >
               <Distribute position='center'>
                 <Container width='1024px'>
                   <TabList size='small' value='insights' type='line'>
@@ -61,9 +82,7 @@ const App = ({data}) => (
         <Distribute position='center'>
           <Container width='1024px'>
             <Spacer top={4} bottom={2}>
-              <Text size='size2'>
-                Dropouts
-              </Text>
+              <Text size='size2'>Dropouts</Text>
             </Spacer>
 
             <Spacer bottom={3}>
@@ -73,16 +92,20 @@ const App = ({data}) => (
             <Container width='768'>
               <Card>
                 <Spacer bottom={1}>
-                  <Distribute vertical space={4} >
-                    {data.map((field) => {
-                      return <Question
-                        key={field.ref}
-                        title={field.title}
-                        dropoutsAmount={field.dropout/field.uniqueViews*100}
-                        visitsAmount={field.uniqueViews}
-                        blockType='yes-no'
-                        blockIndex={field.index}
-                      />
+                  <Distribute vertical space={4}>
+                    {sortData(sortTypes.dropout, data).map(field => {
+                      return (
+                        <Question
+                          key={field.ref}
+                          title={field.title}
+                          dropoutsAmount={
+                            field.dropout / field.uniqueViews * 100
+                          }
+                          visitsAmount={field.uniqueViews}
+                          blockType='yes-no'
+                          blockIndex={field.index}
+                        />
+                      )
                     })}
                   </Distribute>
                 </Spacer>
@@ -94,6 +117,6 @@ const App = ({data}) => (
     </Container>
   </BaseStyles>
 )
-getData().then((data) => {
+getData().then(data => {
   render(<App data={data} />, document.getElementById('root'))
 })
