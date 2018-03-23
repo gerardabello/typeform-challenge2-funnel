@@ -1,6 +1,5 @@
 import React from 'react'
 import Text from '@typeform/kitt/lib/components/text'
-import Spread from '@typeform/kitt/lib/components/spread'
 import styled from 'styled-components'
 import { xxlight } from '@typeform/kitt/lib/utils'
 import { colors } from '@typeform/kitt/lib/variables'
@@ -26,11 +25,22 @@ const ChartBarContent = styled.div`
   z-index: 1;
   mix-blend-mode: luminosity;
 `
+const AmountsWrapper = styled.div`
+  display: flex;
+
+  @media (min-width: 700px) {
+    justify-content: space-between;
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+`
 
 const ChartBar = ({ dropoutsAmount, visitsAmount }) => (
   <ChartBarWrapper dropoutsAmount={dropoutsAmount}>
     <ChartBarContent>
-      <Spread>
+      <AmountsWrapper>
         <div>
           <Text fontWeight='bold' inline>
             {dropoutsAmount}%
@@ -42,7 +52,7 @@ const ChartBar = ({ dropoutsAmount, visitsAmount }) => (
             {visitsAmount}
           </Text> visitors
         </div>
-      </Spread>
+      </AmountsWrapper>
     </ChartBarContent>
     <Fill dropoutsAmount={dropoutsAmount} />
   </ChartBarWrapper>

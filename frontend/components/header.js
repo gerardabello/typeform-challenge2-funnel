@@ -9,9 +9,24 @@ import Distribute from '@typeform/kitt/lib/components/distribute'
 import Button from '@typeform/kitt/lib/components/button'
 import Avatar from '@typeform/kitt/lib/components/avatar'
 import iconExternalSvg from '@typeform/kitt/lib/iconsv2/external'
+import styled from 'styled-components'
+
+const SubHeaderLayout = styled.div`
+  max-width: 976px;
+  width: 100%;
+  padding: 0 24px;
+`
+
+const HeaderWrapper = styled.div`
+  .hideOnSm {
+    @media (max-width: 700px) {
+      display: none;
+    }
+  }
+`
 
 const Header = () => (
-  <div>
+  <HeaderWrapper>
     <Container borderSide='bottom' height='xsm' backgroundColor='white' >
       <Split width='full'>
         <SplitItem width='remaining'>
@@ -22,18 +37,18 @@ const Header = () => (
               </Distribute>
             </SplitItem>
 
-            <SplitItem padRight={2}>
+            <SplitItem padRight={2} className='hideOnSm'>
               <Container borderSide='left' height='32px' width='1px' />
             </SplitItem>
 
-            <SplitItem>
+            <SplitItem className='hideOnSm'>
               <Distribute space={2} align='center'>
                 <IconV2 svg={require('@typeform/kitt/lib/iconsv2/workspaces')} boundarySizeY={2.5} position='topCenter' />
                 <IconV2 svg={require('@typeform/kitt/lib/iconsv2/caret-right')} />
               </Distribute>
             </SplitItem>
 
-            <SplitItem width='200px'>
+            <SplitItem width='200px' className='hideOnSm'>
               <InlineEditor value='Form' size='large' />
             </SplitItem>
           </Split>
@@ -41,7 +56,7 @@ const Header = () => (
 
         <SplitItem height='full' padRight={4}>
           <Split height='full' align='center'>
-            <SplitItem>
+            <SplitItem className='hideOnSm'>
               <Button
                 iconSvg={iconExternalSvg}
                 iconPosition='left'
@@ -49,7 +64,7 @@ const Header = () => (
                 View
               </Button>
             </SplitItem>
-            <SplitItem padLeft={2} padRight={2}>
+            <SplitItem padLeft={2} padRight={2} className='hideOnSm'>
               <Container
                 width='1px'
                 height='32px'
@@ -72,16 +87,16 @@ const Header = () => (
 
     <Container borderSide='bottom' height='48px' backgroundColor='white' >
       <Distribute position='center'>
-        <Container width='1024px'>
+        <SubHeaderLayout>
           <TabList size='small' value='insights' type='line'>
             <Tab value='summary' label='Summary' />
             <Tab value='responses' label='Responses' />
             <Tab value='insights' label='Insights' />
           </TabList>
-        </Container>
+        </SubHeaderLayout>
       </Distribute>
     </Container>
-  </div>
+  </HeaderWrapper>
 )
 
 export default Header

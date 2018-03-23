@@ -10,17 +10,41 @@ import { colors } from '@typeform/kitt/lib/variables'
 
 const BlockWrapper = styled.div`
   position: relative;
+
+  @media (max-width: 700px) {
+    margin-bottom: 8px;
+  }
 `
 const RequiredWrapper = styled.div`
   position: absolute;
-  right: 100%;
+  right: calc(100% + 8px);
   top: 0;
-  width: 32px;
+`
+
+const QuestionWrapper = styled.div`
+  display: flex;
+
+  @media (min-width: 700px) {
+    padding-right: 64px;
+  }
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+`
+
+const BlockSection = styled.div`
+  padding-right: 12px;
+  flex-shrink: 0;
+`
+
+const ContentSection = styled.div`
+  flex: 1;
 `
 
 const Question = ({ title, dropoutsAmount, visitsAmount, blockType, blockIndex, isRequired }) => (
-  <Split>
-    <SplitItem padRight={1.5}>
+  <QuestionWrapper>
+    <BlockSection padRight={1.5}>
       <BlockWrapper>
         <Block
           blockType={blockType}
@@ -35,8 +59,8 @@ const Question = ({ title, dropoutsAmount, visitsAmount, blockType, blockIndex, 
           </RequiredWrapper>
         }
       </BlockWrapper>
-    </SplitItem>
-    <SplitItem width='remaining' padRight={8}>
+    </BlockSection>
+    <ContentSection width='remaining' padRight={8}>
       <Spacer bottom={1}>
         <Text size='size1' fontWeight='medium'>
           {title}
@@ -45,8 +69,8 @@ const Question = ({ title, dropoutsAmount, visitsAmount, blockType, blockIndex, 
       <Container>
         <ChartBar dropoutsAmount={dropoutsAmount} visitsAmount={visitsAmount} />
       </Container>
-    </SplitItem>
-  </Split>
+    </ContentSection>
+  </QuestionWrapper>
 )
 
 export default Question
